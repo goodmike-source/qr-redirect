@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Открытие приложения Petrovich</title>
-
+    <title>Petrovich — Выбор способа входа</title>
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
         (function(m,e,t,r,i,k,a){
@@ -13,86 +12,80 @@
             k=e.createElement(t),a=e.getElementsByTagName(t)[0];
             k.async=1; k.src=r; a.parentNode.insertBefore(k,a);
         })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-        ym(103918954, 'init', {
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:true
-        });
-
-        // Отдельная цель для QR-кодов
-        function trackQR() {
-            ym(103918954, 'reachGoal', 'qr_scan');
-        }
+        ym(103918954, 'init', {clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true});
+        // Фиксируем сканирование QR-кода
+        function trackQR() { ym(103918954, 'reachGoal', 'qr_scan'); }
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/103918954" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
-
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 60px 20px;
-            background: #f8f8f8;
-            color: #333;
-        }
-        h2 {
-            font-size: 26px;
-            margin-bottom: 15px;
-        }
-        p {
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; padding: 40px 20px; background: #f8f8f8; color: #333; }
+        .card { background: white; border-radius: 16px; padding: 30px; margin: 0 auto; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h2 { margin-bottom: 15px; color: #ff6600; }
+        p { margin-bottom: 25px; line-height: 1.5; }
         .button {
-            display: inline-block;
-            padding: 16px 32px;
-            background-color: #ff6600;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
+            display: block; width: 100%; padding: 16px; margin: 10px 0;
+            background-color: #ff6600; color: white; text-decoration: none;
+            border-radius: 8px; font-size: 18px; font-weight: bold; transition: background 0.3s;
         }
-        .button:hover {
-            background-color: #e55a00;
-        }
+        .button:hover { background-color: #e55a00; }
+        .button-store { background-color: #333; }
+        .button-store:hover { background-color: #555; }
+        .app-icon { width: 80px; height: 80px; margin-bottom: 20px; }
     </style>
 </head>
-<body>
-    <h2>Открытие приложения Petrovich</h2>
-    <p>Если приложение не открылось автоматически, нажмите кнопку ниже.</p>
-    <a id="openBtn" href="#" class="button">Открыть приложение</a>
+<body onload="trackQR()">
+    <div class="card">
+        <!-- Заглушка для иконки приложения -->
+        <svg class="app-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="20" fill="#ff6600"/>
+            <text x="50" y="60" text-anchor="middle" fill="white" font-size="40" font-weight="bold">P</text>
+        </svg>
+
+        <h2>Добро пожаловать в Petrovich!</h2>
+        <p>Выберите, как вы хотите продолжить:</p>
+
+        <!-- Кнопка для тех, у кого приложение УЖЕ установлено -->
+        <a href="#" class="button" onclick="tryOpenApp()">Открыть в приложении</a>
+        <p><small>Если приложение установлено, оно откроется. Если нет — вы перейдете в магазин.</small></p>
+
+        <hr style="margin: 25px 0;">
+
+        <!-- Кнопки для установки/перехода на сайт -->
+        <a href="https://apps.apple.com/ru/app/id1246154462" class="button button-store">Установить для iOS</a>
+        <a href="https://play.google.com/store/apps/details?id=ru.handh.petrovich" class="button button-store">Установить для Android</a>
+        <a href="https://moscow.petrovich.ru/" class="button">Перейти на сайт</a>
+    </div>
 
     <script>
-        // Ссылки на приложение и сайт
-        const appDeepLink = 'petrovich://main'; // Deep link на приложение
-        const appStoreLink = 'https://apps.apple.com/ru/app/id1246154462';
-        const googlePlayLink = 'https://play.google.com/store/apps/details?id=ru.handh.petrovich';
-        const websiteLink = 'https://moscow.petrovich.ru/';
+        // Функция, которая пытается угадать схему и открыть приложение.
+        // Если не выходит - перенаправляет в магазин.
+        function tryOpenApp() {
+            // Пробуем самые вероятные схемы для Petrovich
+            const possibleSchemes = [
+                'petrovich://main',
+                'petrovichapp://main',
+                'ph://main',
+                'petric://main'
+            ];
 
-        function redirectToStore() {
-            const ua = navigator.userAgent;
-            if (/iPad|iPhone|iPod/.test(ua)) {
-                window.location.href = appStoreLink;
-            } else if (/Android/.test(ua)) {
-                window.location.href = googlePlayLink;
-            } else {
-                window.location.href = websiteLink;
-            }
+            // Пытаемся открыть приложение
+            window.location.href = possibleSchemes[0]; // пробуем самый вероятный вариант первый
+
+            // Если через секунду ничего не произошло, отправляем в магазин
+            setTimeout(() => {
+                if (!document.hidden) {
+                    const ua = navigator.userAgent;
+                    if (/iPad|iPhone|iPod/.test(ua)) {
+                        window.location.href = 'https://apps.apple.com/ru/app/id1246154462';
+                    } else if (/Android/.test(ua)) {
+                        window.location.href = 'https://play.google.com/store/apps/details?id=ru.handh.petrovich';
+                    } else {
+                        window.location.href = 'https://moscow.petrovich.ru/';
+                    }
+                }
+            }, 1000);
         }
-
-        function openApp() {
-            trackQR(); // фиксируем переход
-            window.location.href = appDeepLink;
-            setTimeout(redirectToStore, 2000); // если не открылось приложение
-        }
-
-        document.getElementById('openBtn').addEventListener('click', openApp);
-        window.onload = openApp;
     </script>
 </body>
 </html>
