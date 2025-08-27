@@ -3,23 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <title>Переход...</title>
-  <!-- Редирект через 0 секунд -->
-  <meta http-equiv="refresh" content="0; url=https://moscow.petrovich.ru/product/503311/">
-  <!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=103917251', 'ym');
+  <script>
+    // Увеличиваем счётчик переходов
+    fetch('https://api.countapi.xyz/hit/vasiliy-qr/scan')
+      .then(res => res.json())
+      .then(data => console.log("QR переходов:", data.value))
+      .catch(err => console.log(err));
 
-    ym(103917251, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/103917251" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
+    // Мгновенный редирект на сайт или приложение
+    window.location.href = "https://ваш-сайт.ру";
+  </script>
 </head>
 <body>
-  <p>Секунду, перенаправляем...</p>
+  <p>Идёт переход...</p>
 </body>
 </html>
