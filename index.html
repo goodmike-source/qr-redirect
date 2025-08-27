@@ -1,118 +1,98 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Открытие приложения Petrovich</title>
+
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
         (function(m,e,t,r,i,k,a){
             m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
             m[i].l=1*new Date();
-            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0];
+            k.async=1; k.src=r; a.parentNode.insertBefore(k,a);
+        })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-        ym(103918954, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+        ym(103918954, 'init', {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+        });
+
+        // Отдельная цель для QR-кодов
+        function trackQR() {
+            ym(103918954, 'reachGoal', 'qr_scan');
+        }
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/103918954" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Корпоративный Университет - Открытие приложения</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8f8f8;
+            color: #333;
+        }
+        h2 {
+            font-size: 26px;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
         .button {
             display: inline-block;
-            margin-top: 20px;
-            padding: 15px 30px;
-            background-color: #0066ff;
+            padding: 16px 32px;
+            background-color: #ff6600;
             color: white;
             text-decoration: none;
             border-radius: 8px;
             font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
+            transition: background 0.3s;
         }
-        .hidden { display: none; }
+        .button:hover {
+            background-color: #e55a00;
+        }
     </style>
 </head>
 <body>
-
-    <h2>Открываем приложение Корпоративного Университета</h2>
+    <h2>Открытие приложения Petrovich</h2>
     <p>Если приложение не открылось автоматически, нажмите кнопку ниже.</p>
-    <!-- Запасная кнопка -->
-    <a id="openBtn" href="#" class="button">Открыть в приложении</a>
-    <p id="fallbackMessage" class="hidden">Кажется, у вас не установлено приложение. <a id="storeLink" href="#">Перейти в магазин для установки</a>.</p>
+    <a id="openBtn" href="#" class="button">Открыть приложение</a>
 
     <script>
-        // !!! ВАЖНО: ЗАМЕНИТЕ ЭТИ ССЫЛКИ НА РЕАЛЬНЫЕ, ПОЛУЧЕННЫЕ ОТ РАЗРАБОТЧИКОВ !!!
-        const appDeepLink = 'corpuniv://main'; // Ссылка для открытия ПРИЛОЖЕНИЯ (ЗАМЕНИТЬ!)
-        const appStoreLink = 'https://apps.apple.com/ru/app/id1246154462'; // Резерв: App Store (Без кириллицы!)
-        const googlePlayLink = 'https://play.google.com/store/apps/details?id=ru.handh.petrovich'; // Резерв: Google Play
-        const websiteLink = 'https://moscow.petrovich.ru/'; // Резерв: Сайт (Главная страница надежнее)
+        // Ссылки на приложение и сайт
+        const appDeepLink = 'petrovich://main'; // Deep link на приложение
+        const appStoreLink = 'https://apps.apple.com/ru/app/id1246154462';
+        const googlePlayLink = 'https://play.google.com/store/apps/details?id=ru.handh.petrovich';
+        const websiteLink = 'https://moscow.petrovich.ru/';
 
-        let appLaunchAttempted = false;
-
-        // Назначаем кнопке ту же ссылку, что и для автоматического открытия
-        document.getElementById('openBtn').href = appDeepLink;
-
-        // Функция для перенаправления в магазин
         function redirectToStore() {
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-            const isAndroid = /Android/.test(navigator.userAgent);
-
-            if (isIOS) {
+            const ua = navigator.userAgent;
+            if (/iPad|iPhone|iPod/.test(ua)) {
                 window.location.href = appStoreLink;
-            } else if (isAndroid) {
+            } else if (/Android/.test(ua)) {
                 window.location.href = googlePlayLink;
             } else {
                 window.location.href = websiteLink;
             }
         }
 
-        // Показываем запасной вариант
-        function showFallback() {
-            document.getElementById('fallbackMessage').classList.remove('hidden');
-            document.getElementById('storeLink').addEventListener('click', redirectToStore);
-        }
-
-        // Функция для перенаправления с таймаутом
-        function tryDeepLink() {
-            // Запускаем таймер-страховку
-            const fallbackTimer = setTimeout(function() {
-                if (!appLaunchAttempted) {
-                    showFallback();
-                }
-            }, 2500); // Чуть больше времени для iOS
-
-            // Пытаемся открыть приложение
+        function openApp() {
+            trackQR(); // фиксируем переход
             window.location.href = appDeepLink;
-            appLaunchAttempted = true;
-
-            // Если мы все еще в браузере через 1 секунду, пробуем более агрессивный метод
-            setTimeout(function() {
-                if (!document.webkitHidden && !document.hidden) {
-                    // Особое поведение для встроенных браузеров (Telegram, WhatsApp)
-                    // Они могут блокировать автоматическое открытие, поэтому показываем кнопку
-                    const isInAppBrowser = /Telegram|WhatsApp|VK|Instagram/.test(navigator.userAgent);
-                    if (isInAppBrowser) {
-                        clearTimeout(fallbackTimer);
-                        showFallback();
-                    } else {
-                        redirectToStore();
-                    }
-                }
-            }, 1000);
+            setTimeout(redirectToStore, 2000); // если не открылось приложение
         }
 
-        // Проверяем, не из встроенного ли браузера мы (там открытие приложения часто невозможно)
-        const isInAppBrowser = /Telegram|WhatsApp|VK|Instagram/.test(navigator.userAgent);
-        if (isInAppBrowser) {
-            // Если да, сразу показываем запасной вариант с кнопкой
-            document.getElementById('openBtn').classList.remove('hidden');
-            document.getElementById('fallbackMessage').classList.remove('hidden');
-        } else {
-            // Если нет, запускаем автоматическую попытку
-            tryDeepLink();
-        }
+        document.getElementById('openBtn').addEventListener('click', openApp);
+        window.onload = openApp;
     </script>
 </body>
 </html>
