@@ -28,13 +28,15 @@
             webvisor:true
         });
 
-        // Сразу ставим цель "redirect"
-        ym(105434665, "reachGoal", "redirect");
-
-        // Редирект через 700 мс — Метрика почти всегда успевает
-        setTimeout(function () {
-            window.location.href = "https://moscow.petrovich.ru/product/503311/";
-        }, 700);
+        // Улучшенная версия - цель ставим после ready
+        ym(105434665, "ready", function() {
+            ym(105434665, "reachGoal", "redirect");
+            
+            // Редирект сразу после регистрации цели
+            setTimeout(function () {
+                window.location.href = "https://moscow.petrovich.ru/product/503311/";
+            }, 100); // Уменьшил до 100мс - достаточно
+        });
     </script>
 
     <noscript>
