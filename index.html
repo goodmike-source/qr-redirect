@@ -5,41 +5,42 @@
     <title>Перенаправление</title>
     
     <!-- Yandex.Metrika counter -->
-    
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=105434665', 'ym');
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {
+                if (document.scripts[j].src.includes("mc.yandex.ru/metrika/tag.js")) { 
+                    return; 
+                }
+            }
+            k=e.createElement(t);
+            a=e.getElementsByTagName(t)[0];
+            k.async=1;
+            k.src=r;
+            a.parentNode.insertBefore(k,a);
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=105434665', 'ym');
 
-    ym(105434665, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/105434665" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-
-
-
-
-        // УБРАЛ ssr:true - это была ошибка!
         ym(105434665, 'init', {
-            webvisor: true,
-            clickmap: true,
-            ecommerce: "dataLayer",
-            accurateTrackBounce: true,
-            trackLinks: true
+            ssr:true,
+            webvisor:true,
+            clickmap:true,
+            ecommerce:"dataLayer",
+            accurateTrackBounce:true,
+            trackLinks:true
         });
         
-        // Мгновенное перенаправление после инициализации Метрики
         ym(105434665, 'ready', function() {
             ym(105434665, 'reachGoal', 'redirect');
             window.location.href = 'https://moscow.petrovich.ru/product/503311/';
         });
     </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/105434665" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/105434665" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript>
     <!-- /Yandex.Metrika counter -->
+
 </head>
 <body>
     <script>
